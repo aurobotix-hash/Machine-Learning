@@ -1,0 +1,103 @@
+That error means your Streamlit app cannot find:
+
+```text
+parkinsons_model.pkl
+scaler.pkl
+```
+
+### Step 1: Generate the files
+
+Run your training code completely until you see:
+
+```text
+Model Saved Successfully
+Scaler Saved Successfully
+```
+
+These lines come from:
+
+```python
+joblib.dump(best_model, "parkinsons_model.pkl")
+joblib.dump(scaler, "scaler.pkl")
+```
+
+### Step 2: Check if files were created
+
+In the same folder where you ran the training code:
+
+```python
+import os
+
+print(os.listdir())
+```
+
+You should see:
+
+```text
+parkinsons_model.pkl
+scaler.pkl
+```
+
+---
+
+### Step 3: Put files in the Streamlit project folder
+
+Your folder should look like:
+
+```text
+Parkinson/
+│
+├── app.py
+├── parkinsons.csv
+├── parkinsons_model.pkl
+├── scaler.pkl
+```
+
+If the `.pkl` files are in another folder, move them into the same folder as `app.py`.
+
+---
+
+### Step 4: Verify current folder
+
+Add this near the top of your Streamlit code:
+
+```python
+import os
+
+st.write("Current Folder:", os.getcwd())
+st.write("Files:", os.listdir())
+```
+
+Run Streamlit again.
+
+If `parkinsons_model.pkl` and `scaler.pkl` are not listed, Streamlit is looking in the wrong folder.
+
+---
+
+### Step 5: If using Google Colab
+
+After training, download the files:
+
+```python
+from google.colab import files
+
+files.download("parkinsons_model.pkl")
+files.download("scaler.pkl")
+```
+
+Then copy those downloaded files into your Streamlit project folder on your PC.
+
+---
+
+Can you tell me:
+
+1. Are you running Streamlit in **VS Code**, **PyCharm**, or **Google Colab**?
+2. What is the output of:
+
+```python
+import os
+print(os.getcwd())
+print(os.listdir())
+```
+
+That will immediately show where Streamlit is searching for the `.pkl` files.
